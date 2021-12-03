@@ -14,8 +14,8 @@ const Home = ({ data }: { data: {} }) => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-        Challenge <a href="https://nextjs.org"> App!</a>
+        <h1 className={styles.title} style={{ paddingBottom: '35px' }}>
+          Challenge <a href="https://nextjs.org"> App!</a>
         </h1>
         <List data={data} />
       </main>
@@ -28,12 +28,12 @@ export async function getStaticProps() {
   const data = await res.json()
 
   if (!data) {
-      return {
-          notFound: true,
-      }
+    return {
+      notFound: true,
+    }
   }
   return {
-      props: { data }, // will be passed to the page component as props
+    props: { data }, // will be passed to the page component as props
   }
 }
 

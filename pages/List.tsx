@@ -16,43 +16,46 @@ function List({ data }: { data: any }) {
     const addPhoto = () => increment(data.message.length);
     addPhoto();
 
-
+    //CallhandleScroll every time the window scrolls.
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    //if isFetching is true then call to fetchMoreListItems
     useEffect(() => {
         if (!isFetching) console.log('new'); return fetchMoreListItems();
     }, [isFetching]);
 
-
+    //Detect scroll position
     function handleScroll() {
+        //if position is in botton return true
         if (Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight || isFetching) return setIsFetching(true);
     }
 
+    //call 25 random pictures
     const getPosts = async () => {
         const res = await fetch(
             `https://dog.ceo/api/breeds/image/random/25`
         );
         const newPosts = await res.json();
+        //update array
         posts.push(...newPosts.message);
         setPosts(posts);
     };
 
-
+    //etch more pictures.
     function fetchMoreListItems() {
         setTimeout(() => {
             getPosts();
-            console.log(posts)
             setIsFetching(false);
-        }, 2000);
+        }, 3000);
     }
 
     return (
         <>
             <ul className="list-group mb-2">
-                {posts.map((post: any, index: number | 0 ) =>
+                {posts.map((post: any, index: number | 0) =>
                     <div key={index} className="card mb-4" style={{ width: '25rem' }} >
                         <TransformWrapper
                             initialScale={1}
@@ -81,13 +84,15 @@ function List({ data }: { data: any }) {
                         </TransformWrapper>
                         <div className="card-body" >
                             <h1>
-                                {index+1} <span>/ {count}</span>
+                                {index + 1} <span>/ {count}</span>
                             </h1>
                         </div>
                     </div>
                 )}
             </ul>
-            {isFetching && 'Fetching more photos'}
+            {isFetching && <div className="spinner-border" role="status">
+                <span className="sr-only"></span>
+            </div>}
         </>
     );
 }
