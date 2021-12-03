@@ -5,6 +5,20 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
     const [isFetching, setIsFetching] = useState(false);
     const [posts, setPosts] = useState(data.message);
   
+    useEffect(() => {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+  
+    useEffect(() => {
+      if (!isFetching) console.log('new'); return;
+    }, [isFetching]);
+  
+  
+    function handleScroll() {
+      if (Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight || isFetching) return setIsFetching(true);
+    }
+
     
   
     return (
