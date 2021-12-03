@@ -19,11 +19,19 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
       if (Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight || isFetching) return setIsFetching(true);
     }
 
-
+    const getPosts = async () => {
+        const res = await fetch(
+          `https://dog.ceo/api/breeds/image/random/25`
+        );
+        const newPosts = await res.json();
+        posts.push(...newPosts.message);
+        setPosts(posts);
+      };
     
   
     function fetchMoreListItems() {
       setTimeout(() => {
+        getPosts();
         console.log(posts)
         setIsFetching(false);
       }, 2000);
