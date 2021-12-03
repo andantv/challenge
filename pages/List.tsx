@@ -11,7 +11,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
     }, []);
   
     useEffect(() => {
-      if (!isFetching) console.log('new'); return;
+      if (!isFetching) console.log('new'); return fetchMoreListItems();
     }, [isFetching]);
   
   
@@ -19,7 +19,15 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
       if (Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight || isFetching) return setIsFetching(true);
     }
 
+
     
+  
+    function fetchMoreListItems() {
+      setTimeout(() => {
+        console.log(posts)
+        setIsFetching(false);
+      }, 2000);
+    }
   
     return (
       <>
